@@ -5,10 +5,10 @@ import './dashboard.css';
 
 function RadarChart({ stats }) {
   if (!stats) return null;
-  const labels = ['Simetría', 'Dominancia', 'Proporción', 'Vitalidad'];
-  const keys = ['symmetry', 'dominance', 'proportion', 'vitality'];
-  const cx = 130, cy = 130, r = 100;
-  const angles = keys.map((_, i) => (Math.PI * 2 * i) / 4 - Math.PI / 2);
+  const labels = ['Simetría', 'Dominancia', 'Proporción', 'Vitalidad', 'Dimorfismo'];
+  const keys = ['symmetry', 'dominance', 'proportion', 'vitality', 'dimorphism'];
+  const cx = 150, cy = 150, r = 100; // Expanded center
+  const angles = keys.map((_, i) => (Math.PI * 2 * i) / 5 - Math.PI / 2); // 5 points
 
   const outerPoints = angles.map(a => `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`).join(' ');
   const midPoints = angles.map(a => `${cx + r * 0.6 * Math.cos(a)},${cy + r * 0.6 * Math.sin(a)}`).join(' ');
@@ -20,7 +20,7 @@ function RadarChart({ stats }) {
   }).join(' ');
 
   return (
-    <svg viewBox="0 0 260 260" className="radar-svg">
+    <svg viewBox="0 0 300 300" className="radar-svg" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
       <polygon points={outerPoints} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
       <polygon points={midPoints} fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
       <polygon points={innerPoints} fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
@@ -30,14 +30,16 @@ function RadarChart({ stats }) {
       ))}
       <polygon points={dataPoints} fill="rgba(255,26,74,0.15)" stroke="var(--red)" strokeWidth="2" />
       {keys.map((k, i) => {
-        const lx = cx + (r + 22) * Math.cos(angles[i]);
-        const ly = cy + (r + 22) * Math.sin(angles[i]);
+        // Push labels further out
+        const textOffset = 28;
+        const lx = cx + (r + textOffset) * Math.cos(angles[i]);
+        const ly = cy + (r + textOffset) * Math.sin(angles[i]);
         return (
           <g key={k}>
             <circle cx={cx + r * ((stats[k]||5)/10) * Math.cos(angles[i])}
               cy={cy + r * ((stats[k]||5)/10) * Math.sin(angles[i])} r="4" fill="var(--red)" />
             <text x={lx} y={ly} textAnchor="middle" dominantBaseline="central"
-              fill="var(--text-secondary)" fontSize="10" fontFamily="var(--font-mono)">
+              fill="var(--text-secondary)" fontSize="11" fontFamily="var(--font-mono)">
               {labels[i]}: {stats[k]}
             </text>
           </g>
