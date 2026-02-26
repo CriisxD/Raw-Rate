@@ -128,7 +128,9 @@ export default function LandingPage() {
         </div>
 
         <p className="landing-disclaimer animate-fade-in delay-5">
-          Al continuar, aceptas someterte a un análisis objetivo y sin censura de tu apariencia física.
+          Al continuar, aceptas someterte a un análisis objetivo y sin censura de tu apariencia física.<br/>
+          <a href="/terms" style={{ color: 'var(--text-muted)', textDecoration: 'underline', marginRight: '1rem', fontSize: '0.8rem' }}>Términos de Servicio</a>
+          <a href="/privacy" style={{ color: 'var(--text-muted)', textDecoration: 'underline', fontSize: '0.8rem' }}>Política de Privacidad</a>
         </p>
       </div>
     </main>
