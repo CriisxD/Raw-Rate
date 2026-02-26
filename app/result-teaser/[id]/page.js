@@ -114,6 +114,14 @@ export default function ResultTeaserPage() {
             <span className="teaser-score-max">/10</span>
           </div>
         </div>
+        
+        {/* Potencial Maximo */}
+        <div style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '2rem' }}>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>POTENCIAL MÁXIMO ALCANZABLE: </span>
+          <span style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--purple)', textShadow: '0 0 10px rgba(184, 0, 255, 0.4)' }}>
+            {data.max_potential_score?.toFixed(1)}/10
+          </span>
+        </div>
 
         {/* Blurred radar */}
         <div className="teaser-radar-wrapper">

@@ -189,6 +189,10 @@ export default function DashboardPage() {
             <span>Score percibido: </span>
             <strong style={{ color: 'var(--cyan)' }}>{data.perceived_score?.toFixed(1)}</strong>
           </div>
+          <div style={{ marginTop: '0.5rem', background: 'rgba(184, 0, 255, 0.1)', padding: '0.5rem 1rem', borderRadius: '12px', display: 'inline-block', border: '1px solid rgba(184, 0, 255, 0.2)' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>POTENCIAL MÁXIMO: </span>
+            <strong style={{ color: 'var(--purple)', fontSize: '1.1rem' }}>{data.max_potential_score?.toFixed(1)}</strong>
+          </div>
         </div>
 
         {/* Radar Chart */}
@@ -234,6 +238,24 @@ export default function DashboardPage() {
             <span className="dash-trait-label">Tu País Ideal</span>
             <p className="heading-md" style={{ color: 'var(--cyan)' }}>
               Tu fenotipo es top 5% en <strong>{data.best_country}</strong>
+            </p>
+          </div>
+        </div>
+
+        {/* Comparativo Social */}
+        <div className="dash-section">
+          <h3 className="dash-section-title">
+            <span style={{ color: 'var(--cyan)' }}>👥</span> Comparativo Social
+          </h3>
+          <div className="glass-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <p style={{ margin: 0, fontSize: '1.1rem' }}>
+              Más atractivo que el <strong style={{ color: 'var(--cyan)', fontSize: '1.3rem' }}>{data.social_percentile}%</strong> de la población en tu rango etario.
+            </p>
+            <div style={{ height: '8px', width: '100%', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${data.social_percentile}%`, background: 'var(--cyan)', boxShadow: '0 0 10px var(--cyan)' }} />
+            </div>
+            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+              * Basado en distribución de fenotipos observados clínicamente en {data.best_country}.
             </p>
           </div>
         </div>

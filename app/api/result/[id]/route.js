@@ -22,6 +22,8 @@ export async function GET(request, { params }) {
       has_upsell: !!analysis.has_upsell,
       base_score: aiData.base_score,
       perceived_score: aiData.perceived_score,
+      max_potential_score: aiData.max_potential_score,
+      social_percentile: aiData.social_percentile,
       penalizing_trait: aiData.penalizing_trait,
       dominant_trait: aiData.dominant_trait,
     };
