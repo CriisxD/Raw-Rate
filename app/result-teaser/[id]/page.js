@@ -123,13 +123,13 @@ export default function ResultTeaserPage() {
         {/* Scores */}
         <div className="teaser-scores">
           <div className="teaser-score-card">
-            <span className="teaser-score-label">BASE SCORE</span>
+            <span className="teaser-score-label">ATRACTIVO BASE</span>
             <span className="teaser-score-value">{data.base_score?.toFixed(1)}</span>
             <span className="teaser-score-max">/10</span>
           </div>
           <div className="teaser-vs">vs</div>
           <div className="teaser-score-card highlight">
-            <span className="teaser-score-label">PERCEIVED</span>
+            <span className="teaser-score-label">PERCEPCIÓN SOCIAL</span>
             <span className="teaser-score-value">{data.perceived_score?.toFixed(1)}</span>
             <span className="teaser-score-max">/10</span>
           </div>

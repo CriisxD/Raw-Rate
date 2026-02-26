@@ -182,11 +182,11 @@ export default function DashboardPage() {
 
         {/* Score Section */}
         <div className="dash-score-section">
-          <span className="text-mono" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>TU SCORE FINAL</span>
+          <span className="text-mono" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>ATRACTIVO BASE</span>
           <AnimatedScore value={data.base_score || 0} />
           <span style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>/10</span>
           <div className="dash-perceived">
-            <span>Score percibido: </span>
+            <span>Percepción social: </span>
             <strong style={{ color: 'var(--cyan)' }}>{data.perceived_score?.toFixed(1)}</strong>
           </div>
           <div style={{ marginTop: '0.5rem', background: 'rgba(184, 0, 255, 0.1)', padding: '0.5rem 1rem', borderRadius: '12px', display: 'inline-block', border: '1px solid rgba(184, 0, 255, 0.2)' }}>

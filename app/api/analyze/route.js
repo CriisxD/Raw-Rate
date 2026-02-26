@@ -32,7 +32,14 @@ export async function POST(request) {
     } catch (aiError) {
       console.error('AI analysis error:', aiError);
       const { MOCK_RESULT } = await import('@/lib/schema');
-      await updateAnalysisStatus(analysisId, 'completed', MOCK_RESULT);
+      const errorMsg = aiError instanceof Error ? aiError.message : String(aiError);
+      
+      const debugResult = {
+        ...MOCK_RESULT,
+        brutal_truth: `[ERROR INTERNO IA] ${errorMsg}. Revisa los logs de Vercel.`
+      };
+      
+      await updateAnalysisStatus(analysisId, 'completed', debugResult);
     }
 
     return NextResponse.json({ id: analysisId });
