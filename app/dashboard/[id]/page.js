@@ -140,39 +140,59 @@ export default function DashboardPage() {
 
       // Title
       ctx.fillStyle = '#ff1a4a';
-      ctx.font = '700 48px Inter, sans-serif';
+      ctx.font = '700 40px Inter, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('RAWRATE', 540, 400);
+      ctx.fillText('RAWRATE', 540, 250);
+
+      ctx.fillStyle = 'rgba(240,240,245,0.7)';
+      ctx.font = '400 32px Inter, sans-serif';
+      ctx.letterSpacing = '10px';
+      ctx.fillText('TARJETA DE FENOTIPO', 540, 320);
 
       // Score
       ctx.fillStyle = '#f0f0f5';
-      ctx.font = '900 200px Inter, sans-serif';
-      ctx.fillText(`${data.base_score?.toFixed(1)}`, 540, 900);
+      ctx.font = '900 240px Inter, sans-serif';
+      ctx.fillText(`${data.base_score?.toFixed(1)}`, 540, 750);
 
       ctx.fillStyle = 'rgba(240,240,245,0.4)';
-      ctx.font = '400 60px Inter, sans-serif';
-      ctx.fillText('/10', 540, 980);
+      ctx.font = '400 50px Inter, sans-serif';
+      ctx.fillText('PUNTAJE CLÍNICO / 10', 540, 850);
 
       // Archetype (Virality booster)
       if (data.aesthetic_archetype) {
         ctx.fillStyle = '#00f0ff';
-        ctx.font = '700 42px Inter, sans-serif';
-        ctx.fillText(`"${data.aesthetic_archetype.toUpperCase()}"`, 540, 1100);
+        ctx.font = '800 54px Inter, sans-serif';
+        ctx.fillText(`"${data.aesthetic_archetype.toUpperCase()}"`, 540, 1050);
+        
+        ctx.fillStyle = 'rgba(0, 240, 255, 0.6)';
+        ctx.font = '400 30px Inter, sans-serif';
+        ctx.fillText('ARQUETIPO DETECTADO', 540, 1110);
+      }
+
+      // Best Country
+      if (data.best_country) {
+        ctx.fillStyle = '#b800ff';
+        ctx.font = '800 54px Inter, sans-serif';
+        ctx.fillText(`🌍 ${data.best_country.toUpperCase()}`, 540, 1280);
+
+        ctx.fillStyle = 'rgba(184, 0, 255, 0.6)';
+        ctx.font = '400 30px Inter, sans-serif';
+        ctx.fillText('TOP 5% DE ATRACCIÓN EN:', 540, 1220);
       }
 
       // Tag
       ctx.fillStyle = '#ff1a4a';
       ctx.font = '700 36px Inter, sans-serif';
-      ctx.fillText('La IA de RawRate me destruyó.', 540, 1240);
+      ctx.fillText('La IA de RawRate me destruyó la autoestima.', 540, 1500);
 
       ctx.fillStyle = 'rgba(240,240,245,0.5)';
       ctx.font = '400 28px Inter, sans-serif';
-      ctx.fillText('¿Te atreves a descubrir tu score?', 540, 1300);
+      ctx.fillText('¿Te atreves a escanear tu rostro?', 540, 1560);
 
       // URL
       ctx.fillStyle = 'rgba(240,240,245,0.3)';
       ctx.font = '400 24px Inter, sans-serif';
-      ctx.fillText('rawrate.app', 540, 1700);
+      ctx.fillText('rawrate.app', 540, 1800);
 
       canvas.toBlob(async (blob) => {
         if (navigator.share) {
@@ -402,11 +422,12 @@ export default function DashboardPage() {
         {/* Share Button */}
         <button className="btn-primary dash-share" onClick={handleShare}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
-          Compartir en TikTok / Stories
+          Generar mi Tarjeta de Fenotipo
         </button>
 
         <button className="btn-secondary dash-restart" onClick={() => router.push('/')}>

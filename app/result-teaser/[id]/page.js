@@ -201,6 +201,16 @@ export default function ResultTeaserPage() {
           </div>
         </div>
 
+        {/* Loss Aversion Hook */}
+        <div style={{ background: 'rgba(255, 26, 74, 0.08)', border: '1px solid rgba(255, 26, 74, 0.4)', padding: '16px', borderRadius: '12px', marginBottom: '24px', textAlign: 'center' }}>
+          <p style={{ margin: 0, color: 'var(--text-primary)', fontSize: '0.95rem', lineHeight: 1.5 }}>
+            Detectamos un <strong style={{ color: 'var(--red)' }}>defecto estructural estético</strong> que reduce tu atractivo social en un 15%.
+          </p>
+          <p style={{ margin: '8px 0 0 0', color: 'var(--red)', fontWeight: 'bold', fontSize: '0.9rem' }}>
+            Desbloquea el reporte para ver el diagnóstico clínico y el protocolo de corrección.
+          </p>
+        </div>
+
         {/* CTA */}
         <button
           className="btn-primary teaser-cta"
