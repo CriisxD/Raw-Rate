@@ -205,7 +205,7 @@ export default function ResultTeaserPage() {
         <div style={{ background: 'rgba(255, 26, 74, 0.08)', border: '1px solid rgba(255, 26, 74, 0.4)', padding: '16px', borderRadius: '12px', marginBottom: '24px', textAlign: 'center' }}>
           <p style={{ margin: 0, color: 'var(--text-primary)', fontSize: '0.95rem', lineHeight: 1.5 }}>
             Detectamos un factor estructural crítico: <strong style={{ color: 'var(--red)' }}>{data.penalizing_trait?.toLowerCase() || 'defecto estético'}</strong>. 
-            <br/>Esto reduce tu atractivo social directo en un {100 - (data.social_percentile || 85)}%.
+            <br/>Esto reduce tu atractivo social directo en un {data.max_potential_score && data.base_score ? Math.round((data.max_potential_score - data.base_score) * 10) : 15}%.
           </p>
           <p style={{ margin: '8px 0 0 0', color: 'var(--red)', fontWeight: 'bold', fontSize: '0.9rem' }}>
             Desbloquea el reporte para ver el diagnóstico clínico y el protocolo de corrección.
