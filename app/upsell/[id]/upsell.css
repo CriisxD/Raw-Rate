@@ -1,0 +1,112 @@
+.upsell-page {
+  min-height: 100vh;
+  padding: var(--space-xl) 0 var(--space-2xl);
+  display: flex;
+  align-items: center;
+}
+
+.upsell-success {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.upsell-check {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.08);
+  border: 2px solid rgba(0, 240, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Offer card */
+.upsell-card {
+  position: relative;
+  margin-bottom: var(--space-lg);
+  border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+.upsell-badge-offer {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 20px;
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: var(--radius-full);
+}
+
+.upsell-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.upsell-benefit {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.upsell-benefit-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.upsell-price {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.upsell-price-amount {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--text-primary);
+}
+
+.upsell-price-label {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.upsell-buy {
+  width: 100%;
+  background: linear-gradient(135deg, var(--purple), var(--red)) !important;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.3) !important;
+}
+
+.upsell-buy:hover {
+  box-shadow: 0 0 50px rgba(168, 85, 247, 0.5) !important;
+}
+
+.upsell-skip {
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
