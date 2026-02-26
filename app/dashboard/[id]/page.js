@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import './dashboard.css';
 
-function RadarChart({ stats }) {
+function RadarChart({ stats, onExplain }) {
   if (!stats) return null;
   const labels = ['Simetría', 'Dominancia', 'Proporción', 'Vitalidad', 'Dimorfismo'];
   const keys = ['symmetry', 'dominance', 'proportion', 'vitality', 'dimorphism'];
@@ -39,8 +39,10 @@ function RadarChart({ stats }) {
             <circle cx={cx + r * ((stats[k]||5)/10) * Math.cos(angles[i])}
               cy={cy + r * ((stats[k]||5)/10) * Math.sin(angles[i])} r="4" fill="var(--red)" />
             <text x={lx} y={ly} textAnchor="middle" dominantBaseline="central"
-              fill="var(--text-secondary)" fontSize="11" fontFamily="var(--font-mono)">
-              {labels[i]}: {stats[k]}
+              fill="var(--text-secondary)" fontSize="11" fontFamily="var(--font-mono)"
+              style={{ cursor: 'pointer' }}
+              onClick={() => onExplain && onExplain(keys[i], labels[i])}>
+              {labels[i]} (?)
             </text>
           </g>
         );
@@ -68,10 +70,35 @@ function AnimatedScore({ value }) {
   return <span className="score-big">{display}</span>;
 }
 
+const EXPLANATIONS = {
+  canthal_tilt: "Ángulo entre el canto interno y externo del ojo. Un ángulo positivo suele asociarse con rostros más atractivos y dominantes.",
+  jawline_definition: "Nitidez y ángulo del hueso mandibular. Ángulos entre 125°-135° con soporte óseo fuerte son el estándar de oro estético.",
+  facial_thirds_ratio: "Proporción vertical de la frente, nariz y mentón. La perfecta simetría 1:1:1 es la base de la armonía facial canónica.",
+  nose_to_lip_ratio: "Distancia entre la nariz y el labio superior (philtrum). Un philtrum corto es indicador de compactación maxilar y juventud.",
+  eye_shape: "Morfología ósea orbitaria. 'Hunter eyes' (almendrados profundos) denotan alta presencia genética.",
+  skin_quality: "Micro-textura y claridad dérmica. Refleja directamente marcadores biológicos de vitalidad sistémica.",
+  symmetry: "Precisión de reflejo entre el lado izquierdo y derecho del rostro. Indicador primario de estabilidad genética.",
+  dominance: "Robustez morfológica general que proyecta autoridad espacial y genética.",
+  proportion: "Relaciones matemáticas (áureas) entre anchos y altos faciales relativos.",
+  vitality: "Ausencia de signos de envejecimiento prematuro, desgaste o asimetrías inducidas por el entorno.",
+  dimorphism: "Diferenciación sexual: hiper-masculinización de la estructura ósea en varones o neotenia/feminización de tejidos blandos en mujeres."
+};
+
+function HelpIcon({ paramKey, title, onExplain }) {
+  return (
+    <span 
+      onClick={() => onExplain(paramKey, title)}
+      style={{ marginLeft: '4px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '14px', height: '14px', borderRadius: '50%', border: '1px solid var(--text-muted)', fontSize: '9px', color: 'var(--text-muted)', verticalAlign: 'middle' }}>
+      ?
+    </span>
+  );
+}
+
 export default function DashboardPage() {
   const router = useRouter();
   const { id } = useParams();
   const [data, setData] = useState(null);
+  const [explanation, setExplanation] = useState(null);
   const shareRef = useRef(null);
 
   useEffect(() => {
@@ -233,9 +260,11 @@ export default function DashboardPage() {
 
         {/* Radar Chart */}
         <div className="dash-section">
-          <h3 className="dash-section-title">Métricas Biométricas</h3>
+          <h3 className="dash-section-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            Métricas Biométricas <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>(Toca para explicar)</span>
+          </h3>
           <div className="radar-container" style={{ width: '260px', height: '260px' }}>
-            <RadarChart stats={data.radar_stats} />
+            <RadarChart stats={data.radar_stats} onExplain={(k, t) => setExplanation({ title: t, text: EXPLANATIONS[k] })} />
           </div>
         </div>
 
@@ -247,27 +276,27 @@ export default function DashboardPage() {
             </h3>
             <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: '1fr 1fr' }}>
               <div className="glass-card" style={{ padding: '1rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Inclinación Cantal</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Inclinación Cantal <HelpIcon paramKey="canthal_tilt" title="Inclinación Cantal" onExplain={(k, t) => setExplanation({ title: t, text: EXPLANATIONS[k] })}/></span>
                 <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.canthal_tilt}</p>
               </div>
               <div className="glass-card" style={{ padding: '1rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Definición Mandibular</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Definición Mandibular <HelpIcon paramKey="jawline_definition" title="Definición Mandibular" onExplain={(k, t) => setExplanation({ title: t, text: EXPLANATIONS[k] })}/></span>
                 <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.jawline_definition}</p>
               </div>
               <div className="glass-card" style={{ padding: '1rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Tercios Faciales</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Tercios Faciales <HelpIcon paramKey="facial_thirds_ratio" title="Tercios Faciales" onExplain={(k, t) => setExplanation({ title: t, text: EXPLANATIONS[k] })}/></span>
                 <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.facial_thirds_ratio}</p>
               </div>
               <div className="glass-card" style={{ padding: '1rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Ratio Nariz-Labio</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Ratio Nariz-Labio <HelpIcon paramKey="nose_to_lip_ratio" title="Ratio Nariz-Labio" onExplain={(k, t) => setExplanation({ title: t, text: EXPLANATIONS[k] })}/></span>
                 <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.nose_to_lip_ratio}</p>
               </div>
               <div className="glass-card" style={{ padding: '1rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Fenotipo Ocular</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Fenotipo Ocular <HelpIcon paramKey="eye_shape" title="Fenotipo Ocular" onExplain={(k, t) => setExplanation({ title: t, text: EXPLANATIONS[k] })}/></span>
                 <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.eye_shape}</p>
               </div>
               <div className="glass-card" style={{ padding: '1rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Calidad Dérmica</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Calidad Dérmica <HelpIcon paramKey="skin_quality" title="Calidad Dérmica" onExplain={(k, t) => setExplanation({ title: t, text: EXPLANATIONS[k] })}/></span>
                 <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.skin_quality}</p>
               </div>
             </div>
@@ -383,7 +412,23 @@ export default function DashboardPage() {
         <button className="btn-secondary dash-restart" onClick={() => router.push('/')}>
           Escanear a otro →
         </button>
+
+        <div style={{ textAlign: 'center', marginTop: '3rem', padding: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', margin: 0 }}>
+            DISCLAIMER: Este es un reporte de optimización estética generado por IA. Resultados de protocolos sugieren cambios a nivel estadístico mundial y varían por genética. Consulte a un profesional de la salud antes de iniciar regímenes dermatológicos o de hipertrofia muscular. El puntaje no determina tu valor como persona.
+          </p>
+        </div>
       </div>
+      {/* Explanation Modal */}
+      {explanation && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', backdropFilter: 'blur(5px)' }} onClick={() => setExplanation(null)}>
+          <div className="glass-card" style={{ maxWidth: '400px', width: '100%', padding: '2rem', border: '1px solid var(--cyan)' }} onClick={e => e.stopPropagation()}>
+            <h3 style={{ marginTop: 0, color: 'var(--cyan)', fontFamily: 'var(--font-mono)' }}>{explanation.title}</h3>
+            <p style={{ lineHeight: 1.6, color: 'var(--text-primary)' }}>{explanation.text}</p>
+            <button className="btn-secondary" style={{ marginTop: '1.5rem', width: '100%' }} onClick={() => setExplanation(null)}>Entendido</button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

@@ -183,6 +183,24 @@ export default function ResultTeaserPage() {
           </p>
         </div>
 
+        {/* Technical Teaser */}
+        <div className="teaser-technical glass-card" style={{ marginTop: '16px', marginBottom: '32px', border: '1px solid rgba(255,26,74,0.3)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Métrica Analizada</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--red)', fontWeight: 'bold' }}>ENCRIPTADO</span>
+          </div>
+          <p style={{ margin: '8px 0', fontSize: '1rem', color: 'var(--text-primary)' }}>
+            Inclinación Cantal (Canthal Tilt)
+          </p>
+          <div style={{ background: 'rgba(255,26,74,0.1)', padding: '12px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" strokeWidth="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span style={{ color: 'var(--red)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>[ DATO BLOQUEADO POR PAYWALL ]</span>
+          </div>
+        </div>
+
         {/* CTA */}
         <button
           className="btn-primary teaser-cta"
