@@ -99,10 +99,12 @@ export default function UploadPage() {
     <main className="upload-page page-enter">
       <div className="container">
         <div className="upload-header">
-          <button className="upload-back" onClick={() => router.push('/')}>
+          <button className="upload-back" onClick={() => currentStep > 0 ? setCurrentStep(prev => prev - 1) : router.push('/')}>
             ← Volver
           </button>
-          <span className="text-mono">PASO {currentStep + 1} DE 4</span>
+          <span className="text-mono">
+            {currentStep === 0 ? 'DATOS MÉDICOS' : `PASO ${currentStep} DE 4`}
+          </span>
         </div>
 
         <div className="stepper">
@@ -205,6 +207,26 @@ export default function UploadPage() {
           </div>
         )}
 
+        {currentStep > 0 && (
+          <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
+            <button 
+              className="btn-secondary" 
+              style={{ flex: 1, padding: '12px' }} 
+              onClick={() => setCurrentStep(prev => prev - 1)}
+            >
+              ← Atrás
+            </button>
+            <button 
+              className="btn-secondary" 
+              style={{ flex: 1, padding: '12px' }} 
+              onClick={() => setCurrentStep(prev => prev + 1)}
+              disabled={!images[step.key] || currentStep === 4}
+            >
+              Siguiente →
+            </button>
+          </div>
+        )}
+
         <input
           ref={fileRef}
           type="file"
@@ -221,7 +243,7 @@ export default function UploadPage() {
                 key={s.key}
                 className={`upload-thumb ${i === currentStep ? 'active' : ''} ${images[s.key] ? 'filled' : ''}`}
                 onClick={() => setCurrentStep(i)}
-                disabled={i > currentStep}
+                disabled={i > 1 && !images[STEPS[i-1].key]}
               >
                 {images[s.key] ? (
                   <img src={images[s.key]} alt={s.label} />
