@@ -23,8 +23,8 @@ export default function PrivacyPage() {
           <h2 style={{ color: '#fff', marginTop: '1.5rem', marginBottom: '0.5rem' }}>2. Procesamiento de Datos</h2>
           <p>Las imágenes son procesadas utilizando la API de OpenAI. Al usar nuestro servicio, usted acepta que las imágenes se envíen a OpenAI temporalmente para su análisis.</p>
           
-          <h2 style={{ color: '#fff', marginTop: '1.5rem', marginBottom: '0.5rem' }}>3. Retención y Eliminación</h2>
-          <p>No creamos cuentas de usuario ni guardamos datos personales. Los reportes generados se vinculan a un enlace anónimo temporal para que pueda visualizar su resultado. Usted puede solicitar la eliminación completa de su información y fotografías en cualquier momento contactando a nuestro soporte.</p>
+          <h2 style={{ color: '#fff', marginTop: '1.5rem', marginBottom: '0.5rem' }}>3. Retención y Eliminación (Regla de 24 Horas)</h2>
+          <p>No creamos cuentas de usuario definitivas. Para proteger tu privacidad al máximo, todas las fotografías subidas y los resultados de tu análisis <strong>se eliminan automáticamente de nuestros servidores luego de 24 horas</strong>. Guarda una captura de pantalla de tus resultados, porque el enlace expirará y será irrecuperable de forma permanente.</p>
           
           <h2 style={{ color: '#fff', marginTop: '1.5rem', marginBottom: '0.5rem' }}>4. Pagos Seguros</h2>
           <p>Todos los pagos son procesados a través de proveedores seguros (Lemon Squeezy / Stripe). RawRate no almacena ni tiene acceso a la información de su tarjeta de crédito.</p>
