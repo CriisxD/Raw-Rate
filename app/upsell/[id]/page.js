@@ -80,16 +80,16 @@ export default function UpsellPage() {
 
           <div className="upsell-benefits">
             <div className="upsell-benefit">
-              <span className="upsell-benefit-icon">🎯</span>
-              <span>Plan personalizado basado en tu análisis</span>
+              <span className="upsell-benefit-icon">🧬</span>
+              <span>Protocolo estructurado fase por fase</span>
             </div>
             <div className="upsell-benefit">
-              <span className="upsell-benefit-icon">📈</span>
-              <span>Resultados visibles en 2 semanas</span>
+              <span className="upsell-benefit-icon">⚖️</span>
+              <span>Rutinas para corregir asimetrías específicas</span>
             </div>
             <div className="upsell-benefit">
               <span className="upsell-benefit-icon">🔬</span>
-              <span>Basado en ciencia antropométrica</span>
+              <span>Base científica y anatómica comprobable</span>
             </div>
           </div>
 
