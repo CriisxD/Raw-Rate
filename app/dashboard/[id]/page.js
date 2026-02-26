@@ -71,17 +71,17 @@ function AnimatedScore({ value }) {
 }
 
 const EXPLANATIONS = {
-  canthal_tilt: "Ángulo entre el canto interno y externo del ojo. Un ángulo positivo suele asociarse con rostros más atractivos y dominantes.",
-  jawline_definition: "Nitidez y ángulo del hueso mandibular. Ángulos entre 125°-135° con soporte óseo fuerte son el estándar de oro estético.",
-  facial_thirds_ratio: "Proporción vertical de la frente, nariz y mentón. La perfecta simetría 1:1:1 es la base de la armonía facial canónica.",
-  nose_to_lip_ratio: "Distancia entre la nariz y el labio superior (philtrum). Un philtrum corto es indicador de compactación maxilar y juventud.",
-  eye_shape: "Morfología ósea orbitaria. 'Hunter eyes' (almendrados profundos) denotan alta presencia genética.",
-  skin_quality: "Micro-textura y claridad dérmica. Refleja directamente marcadores biológicos de vitalidad sistémica.",
-  symmetry: "Precisión de reflejo entre el lado izquierdo y derecho del rostro. Indicador primario de estabilidad genética.",
-  dominance: "Robustez morfológica general que proyecta autoridad espacial y genética.",
-  proportion: "Relaciones matemáticas (áureas) entre anchos y altos faciales relativos.",
-  vitality: "Ausencia de signos de envejecimiento prematuro, desgaste o asimetrías inducidas por el entorno.",
-  dimorphism: "Diferenciación sexual: hiper-masculinización de la estructura ósea en varones o neotenia/feminización de tejidos blandos en mujeres."
+  canthal_tilt: "La inclinación de tus ojos. Una mirada recta o ligeramente hacia arriba se considera magnética y dominante, mientras que una inclinación hacia abajo puede dar un aspecto de cansancio crónico o tristeza.",
+  jawline_definition: "El filo y forma de tu mandíbula. Una mandíbula cuadrada y bien marcada transmite fuerza y estructura sólida, mientras que una mandíbula débil o retraída suele restar atractivo inmediato.",
+  facial_thirds_ratio: "El equilibrio entre tu frente, el área de tu nariz y tu mentón. La perfección visual dicta que estas tres partes de tu rostro deberían medir casi exactamente lo mismo.",
+  nose_to_lip_ratio: "El espacio que hay entre tu nariz y tu labio superior. Un espacio corto es un rasgo biológico de juventud visual que hace que el rostro se vea más compacto y armónico.",
+  eye_shape: "La forma de tus ojos y tu mirada. Los 'Hunter Eyes' (ojos almendrados y profundos) son el estándar más atractivo, mientras que los ojos muy saltones o muy redondos se perciben como menos amenazantes o infantiles.",
+  skin_quality: "La pureza de tu piel. No es solo falta de acné; es la textura, el colágeno y cómo refleja la luz. Es el indicador número uno de tu salud biológica ante los demás.",
+  symmetry: "Qué tan igual es la mitad izquierda de tu cara comparada con la derecha. Es el pilar fundamental e inconsciente que el cerebro humano usa para percibir si alguien es hermoso al instante.",
+  dominance: "Qué tan imponente o atractivamente agresiva se ve tu estructura ósea. Rasgos marcados y fuertes suben este puntaje, rasgos blandos o sin forma lo bajan.",
+  proportion: "La armonía general de todas las medidas de tu cara y cómo encajan juntas (frente, mejillas, quijada, ojos) siguiendo proporciones que resultan visualmente hermosas.",
+  vitality: "Tu energía visual aparente. Evalúa si te ves saludable, radiante y joven, o si por el contrario muestras signos de desgaste extremo, ojeras y envejecimiento prematuro.",
+  dimorphism: "Qué tanto encajan tus rasgos con lo que se espera de tu género biológico (mandíbulas y cejas fuertes en hombres, o rasgos más suaves y delicados en mujeres)."
 };
 
 function HelpIcon({ paramKey, title, onExplain }) {
@@ -229,6 +229,7 @@ export default function DashboardPage() {
   }
 
   return (
+    <>
     <main className="dashboard-page page-enter">
       <div className="container">
         {/* Header Logo */}
@@ -440,16 +441,17 @@ export default function DashboardPage() {
           </p>
         </div>
       </div>
-      {/* Explanation Modal */}
-      {explanation && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', backdropFilter: 'blur(5px)' }} onClick={() => setExplanation(null)}>
-          <div className="glass-card" style={{ maxWidth: '400px', width: '100%', padding: '2rem', border: '1px solid var(--cyan)' }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0, color: 'var(--cyan)', fontFamily: 'var(--font-mono)' }}>{explanation.title}</h3>
-            <p style={{ lineHeight: 1.6, color: 'var(--text-primary)' }}>{explanation.text}</p>
-            <button className="btn-secondary" style={{ marginTop: '1.5rem', width: '100%' }} onClick={() => setExplanation(null)}>Entendido</button>
-          </div>
-        </div>
-      )}
     </main>
+    {/* Explanation Modal */}
+    {explanation && (
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', backdropFilter: 'blur(8px)' }} onClick={() => setExplanation(null)}>
+        <div className="glass-card element-enter" style={{ maxWidth: '420px', width: '100%', padding: '2rem', border: '1px solid var(--cyan)', boxShadow: '0 0 40px rgba(0, 240, 255, 0.1)' }} onClick={e => e.stopPropagation()}>
+          <h3 style={{ marginTop: 0, color: 'var(--cyan)', fontFamily: 'var(--font-mono)', fontSize: '1.1rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{explanation.title}</h3>
+          <p style={{ lineHeight: 1.6, color: 'var(--text-primary)', fontSize: '1rem', margin: '1rem 0 1.5rem 0' }}>{explanation.text}</p>
+          <button className="btn-secondary" style={{ width: '100%', padding: '12px' }} onClick={() => setExplanation(null)}>Entendido</button>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
