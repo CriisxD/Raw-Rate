@@ -31,6 +31,7 @@ export async function GET(request, { params }) {
     // Full data (for dashboard - in demo mode always return full)
     if (full || analysis.is_unlocked || !process.env.LEMONSQUEEZY_API_KEY) {
       response.radar_stats = aiData.radar_stats;
+      response.clinical_metrics = aiData.clinical_metrics;
       response.brutal_truth = aiData.brutal_truth;
       response.best_country = aiData.best_country;
       response.improvement_plan = aiData.improvement_plan;

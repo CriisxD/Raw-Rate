@@ -203,6 +203,41 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Desglose Clinico */}
+        {data.clinical_metrics && (
+          <div className="dash-section">
+            <h3 className="dash-section-title">
+              <span style={{ color: 'var(--cyan)' }}>🔬</span> Desglose Clínico
+            </h3>
+            <div style={{ display: 'grid', gap: '12px', gridTemplateColumns: '1fr 1fr' }}>
+              <div className="glass-card" style={{ padding: '1rem' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Inclinación Cantal</span>
+                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.canthal_tilt}</p>
+              </div>
+              <div className="glass-card" style={{ padding: '1rem' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Definición Mandibular</span>
+                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.jawline_definition}</p>
+              </div>
+              <div className="glass-card" style={{ padding: '1rem' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Tercios Faciales</span>
+                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.facial_thirds_ratio}</p>
+              </div>
+              <div className="glass-card" style={{ padding: '1rem' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Ratio Nariz-Labio</span>
+                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.nose_to_lip_ratio}</p>
+              </div>
+              <div className="glass-card" style={{ padding: '1rem' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Fenotipo Ocular</span>
+                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.eye_shape}</p>
+              </div>
+              <div className="glass-card" style={{ padding: '1rem' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Calidad Dérmica</span>
+                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: 'var(--text-primary)' }}>{data.clinical_metrics.skin_quality}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Brutal Truth */}
         <div className="dash-section">
           <h3 className="dash-section-title">
