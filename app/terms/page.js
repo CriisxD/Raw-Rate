@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import '../page.css'; 
+import '../landing.css'; 
 
 export default function TermsPage() {
   const router = useRouter();

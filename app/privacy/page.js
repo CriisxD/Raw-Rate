@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import '../page.css'; // Assuming we want basic styling matching landing
+import '../landing.css';
 
 export default function PrivacyPage() {
   const router = useRouter();
