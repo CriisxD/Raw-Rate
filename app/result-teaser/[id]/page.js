@@ -7,15 +7,23 @@ export default function ResultTeaserPage() {
   const router = useRouter();
   const { id } = useParams();
   const [data, setData] = useState(null);
+  const [media, setMedia] = useState([]);
   const [timer, setTimer] = useState(600); // 10 minutes
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`/api/result/${id}`);
-        const json = await res.json();
-        setData(json);
+        const [resData, resMedia] = await Promise.all([
+          fetch(`/api/result/${id}`),
+          fetch(`/api/media/${id}`)
+        ]);
+        const jsonData = await resData.json();
+        const jsonMedia = await resMedia.json();
+        setData(jsonData);
+        if (jsonMedia.images) {
+          setMedia(jsonMedia.images);
+        }
       } catch {}
     }
     load();
@@ -94,6 +102,18 @@ export default function ResultTeaserPage() {
             Reporte eliminado por privacidad
           </span>
         </div>
+
+        {/* User Images Grid / Scanning Effect */}
+        {media && media.length > 0 && (
+          <div className="teaser-media-grid">
+            {media.map((img, i) => (
+              <div key={i} className="teaser-media-item">
+                <img src={img.data} alt={img.type} />
+                <div className="teaser-scanner-overlay"></div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Classification badge */}
         <div className="teaser-classified">

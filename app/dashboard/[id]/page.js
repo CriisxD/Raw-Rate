@@ -299,14 +299,35 @@ export default function DashboardPage() {
         {data.improvement_plan && data.improvement_plan.length > 0 && (
           <div className="dash-section">
             <h3 className="dash-section-title">
-              <span style={{ color: 'var(--purple)' }}>📈</span> Plan de Acción
+              <span style={{ color: 'var(--cyan)' }}>🩺</span> Protocolo Clínico (30 Días)
               {!data.has_upsell && <span className="dash-locked-badge">BLOQUEADO</span>}
             </h3>
-            <div className={`dash-plan ${!data.has_upsell ? 'locked' : ''}`}>
+            <div className={`dash-plan-premium ${!data.has_upsell ? 'locked' : ''}`}>
               {data.improvement_plan.map((step, i) => (
-                <div key={i} className="dash-plan-step">
-                  <span className="dash-plan-num">{i + 1}</span>
-                  <p>{data.has_upsell ? step : step.substring(0, 40) + '...'}</p>
+                <div key={i} className="premium-plan-card glass-card">
+                  <div className="premium-plan-header">
+                    <span className="premium-plan-num">Fase {i + 1}</span>
+                    <h4 className="premium-plan-focus">{typeof step === 'string' ? 'Recomendación' : step.focus}</h4>
+                  </div>
+                  {typeof step === 'object' ? (
+                    <>
+                      <div className="premium-plan-target">
+                        <span className="text-muted-xs">OBJETIVO:</span> {step.target_metric}
+                      </div>
+                      <div className="premium-plan-protocol">
+                        <span className="text-muted-xs">PROTOCOLO:</span>
+                        <p>{data.has_upsell ? step.protocol : step.protocol.substring(0, 60) + '...'}</p>
+                      </div>
+                      {data.has_upsell && step.scientific_basis && (
+                        <div className="premium-plan-science">
+                          <span className="text-muted-xs">BASE CIENTÍFICA:</span>
+                          <p>{step.scientific_basis}</p>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <p>{data.has_upsell ? step : step.substring(0, 60) + '...'}</p>
+                  )}
                 </div>
               ))}
             </div>
