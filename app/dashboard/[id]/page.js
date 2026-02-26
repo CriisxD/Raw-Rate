@@ -126,14 +126,21 @@ export default function DashboardPage() {
       ctx.font = '400 60px Inter, sans-serif';
       ctx.fillText('/10', 540, 980);
 
+      // Archetype (Virality booster)
+      if (data.aesthetic_archetype) {
+        ctx.fillStyle = '#00f0ff';
+        ctx.font = '700 42px Inter, sans-serif';
+        ctx.fillText(`"${data.aesthetic_archetype.toUpperCase()}"`, 540, 1100);
+      }
+
       // Tag
       ctx.fillStyle = '#ff1a4a';
       ctx.font = '700 36px Inter, sans-serif';
-      ctx.fillText('La IA de RawRate me destruyó.', 540, 1200);
+      ctx.fillText('La IA de RawRate me destruyó.', 540, 1240);
 
       ctx.fillStyle = 'rgba(240,240,245,0.5)';
       ctx.font = '400 28px Inter, sans-serif';
-      ctx.fillText('¿Te atreves a descubrir tu score?', 540, 1260);
+      ctx.fillText('¿Te atreves a descubrir tu score?', 540, 1300);
 
       // URL
       ctx.fillStyle = 'rgba(240,240,245,0.3)';
@@ -204,6 +211,25 @@ export default function DashboardPage() {
             <strong style={{ color: 'var(--purple)', fontSize: '1.1rem' }}>{data.max_potential_score?.toFixed(1)}</strong>
           </div>
         </div>
+
+        {/* Aesthetic Archetype */}
+        {data.aesthetic_archetype && (
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <span style={{ 
+              display: 'inline-block', 
+              background: 'rgba(0, 240, 255, 0.1)', 
+              color: 'var(--cyan)', 
+              padding: '8px 16px', 
+              borderRadius: '20px', 
+              fontFamily: 'var(--font-mono)', 
+              fontSize: '0.85rem',
+              border: '1px solid rgba(0, 240, 255, 0.3)',
+              boxShadow: '0 0 15px rgba(0, 240, 255, 0.1)'
+            }}>
+              ARQUETIPO: {data.aesthetic_archetype.toUpperCase()}
+            </span>
+          </div>
+        )}
 
         {/* Radar Chart */}
         <div className="dash-section">
