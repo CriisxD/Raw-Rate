@@ -36,6 +36,8 @@ export async function POST(request) {
       
       const debugResult = {
         ...MOCK_RESULT,
+        penalizing_trait: `[API ERROR] ${errorMsg.substring(0, 80)}`,
+        dominant_trait: `[IA FAILED]`,
         brutal_truth: `[ERROR INTERNO IA] ${errorMsg}. Revisa los logs de Vercel.`
       };
       
