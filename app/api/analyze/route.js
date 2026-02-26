@@ -7,10 +7,13 @@ export const maxDuration = 60; // Allow more time for OpenAI Vision processing
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { sessionId, images } = body;
+    const { sessionId, biometrics, images } = body;
 
     if (!images || !images.front || !images.profile || !images.smile || !images.body) {
       return NextResponse.json({ error: 'Se requieren las 4 imágenes' }, { status: 400 });
+    }
+    if (!biometrics || !biometrics.age || !biometrics.gender || !biometrics.height) {
+      return NextResponse.json({ error: 'Faltan datos biométricos base' }, { status: 400 });
     }
 
     // Create analysis record
@@ -27,7 +30,7 @@ export async function POST(request) {
     // Run AI analysis
     try {
       const imageDataUrls = [images.front, images.profile, images.smile, images.body];
-      const result = await analyzeImages(imageDataUrls);
+      const result = await analyzeImages(imageDataUrls, biometrics);
       await updateAnalysisStatus(analysisId, 'completed', result);
     } catch (aiError) {
       console.error('AI analysis error:', aiError);

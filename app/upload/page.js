@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import './upload.css';
 
 const STEPS = [
+  { key: 'biometrics', label: 'Datos', desc: 'Para un análisis clínico preciso', icon: '📝' },
   { key: 'front', label: 'Frontal', desc: 'Cara seria, mirando directo a cámara', icon: '🎯' },
   { key: 'profile', label: 'Perfil', desc: 'Gira 90° hacia tu derecha', icon: '👤' },
   { key: 'smile', label: 'Sonrisa', desc: 'Sonrisa natural, ojos abiertos', icon: '😊' },
@@ -37,6 +38,7 @@ export default function UploadPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [images, setImages] = useState({});
+  const [biometrics, setBiometrics] = useState({ age: '', gender: '', height: '' });
   const [loading, setLoading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef(null);
@@ -46,7 +48,7 @@ export default function UploadPage() {
     const compressed = await compressImage(file);
     const step = STEPS[currentStep];
     setImages(prev => ({ ...prev, [step.key]: compressed }));
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       setTimeout(() => setCurrentStep(prev => prev + 1), 500);
     }
   }, [currentStep]);
@@ -68,6 +70,7 @@ export default function UploadPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId,
+          biometrics,
           images: {
             front: images.front,
             profile: images.profile,
@@ -89,7 +92,7 @@ export default function UploadPage() {
     }
   };
 
-  const allUploaded = STEPS.every(s => images[s.key]);
+  const allUploaded = images.front && images.profile && images.smile && images.body && biometrics.age && biometrics.gender && biometrics.height;
   const step = STEPS[currentStep];
 
   return (
@@ -102,12 +105,11 @@ export default function UploadPage() {
           <span className="text-mono">PASO {currentStep + 1} DE 4</span>
         </div>
 
-        {/* Stepper */}
         <div className="stepper">
           {STEPS.map((s, i) => (
             <div key={s.key} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div className={`stepper-dot ${i < currentStep ? 'done' : i === currentStep ? 'active' : ''}`} />
-              {i < 3 && <div className="stepper-line" />}
+              {i < 4 && <div className="stepper-line" />}
             </div>
           ))}
         </div>
@@ -119,41 +121,89 @@ export default function UploadPage() {
           {step.desc}
         </p>
 
-        {/* Upload zone */}
-        <div
-          className={`upload-zone ${dragOver ? 'drag-over' : ''} ${images[step.key] ? 'has-image' : ''}`}
-          onClick={() => fileRef.current?.click()}
-          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={handleDrop}
-        >
-          {images[step.key] ? (
-            <div className="upload-preview">
-              <img src={images[step.key]} alt={step.label} />
-              <div className="upload-preview-overlay">
-                <span>✓ Capturado</span>
-              </div>
+        {/* Content based on step */}
+        {currentStep === 0 ? (
+          <div className="biometrics-form animate-fade-in glass-card" style={{ padding: '2rem', textAlign: 'left', marginBottom: '2rem' }}>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-secondary)' }}>Sexo Biológico</label>
+              <select
+                value={biometrics.gender}
+                onChange={e => setBiometrics({ ...biometrics, gender: e.target.value })}
+                style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}
+              >
+                <option value="">Selecciona...</option>
+                <option value="Hombre">Hombre</option>
+                <option value="Mujer">Mujer</option>
+              </select>
             </div>
-          ) : (
-            <div className="upload-placeholder">
-              <div className="upload-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                  <circle cx="12" cy="13" r="4"/>
-                </svg>
-              </div>
-              <p>Toca para subir o arrastra tu foto</p>
-              <span className="text-mono" style={{ fontSize: '0.7rem' }}>JPG, PNG • Máx 10MB</span>
+            
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-secondary)' }}>Edad</label>
+              <input
+                type="number"
+                placeholder="Ej. 24"
+                value={biometrics.age}
+                onChange={e => setBiometrics({ ...biometrics, age: e.target.value })}
+                style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}
+              />
             </div>
-          )}
 
-          {/* Scanner overlay */}
-          <div className="upload-scanner-line" />
-          <div className="upload-corners">
-            <span className="corner tl" /><span className="corner tr" />
-            <span className="corner bl" /><span className="corner br" />
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-secondary)' }}>Estatura Real (cm)</label>
+              <input
+                type="number"
+                placeholder="Ej. 175"
+                value={biometrics.height}
+                onChange={e => setBiometrics({ ...biometrics, height: e.target.value })}
+                style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}
+              />
+              <p style={{ fontSize: '0.75rem', color: 'var(--red)', marginTop: '8px' }}>* No mientas. La IA triangulará tus proporciones óseas.</p>
+            </div>
+
+            <button
+              className="btn-primary"
+              style={{ width: '100%' }}
+              disabled={!biometrics.age || !biometrics.gender || !biometrics.height}
+              onClick={() => setCurrentStep(1)}
+            >
+              Confirmar y Continuar →
+            </button>
           </div>
-        </div>
+        ) : (
+          <div
+            className={`upload-zone ${dragOver ? 'drag-over' : ''} ${images[step.key] ? 'has-image' : ''}`}
+            onClick={() => fileRef.current?.click()}
+            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={handleDrop}
+          >
+            {images[step.key] ? (
+              <div className="upload-preview">
+                <img src={images[step.key]} alt={step.label} />
+                <div className="upload-preview-overlay">
+                  <span>✓ Capturado</span>
+                </div>
+              </div>
+            ) : (
+              <div className="upload-placeholder">
+                <div className="upload-icon">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                  </svg>
+                </div>
+                <p>Toca para subir o arrastra tu foto</p>
+                <span className="text-mono" style={{ fontSize: '0.7rem' }}>JPG, PNG • Máx 10MB</span>
+              </div>
+            )}
+
+            <div className="upload-scanner-line" />
+            <div className="upload-corners">
+              <span className="corner tl" /><span className="corner tr" />
+              <span className="corner bl" /><span className="corner br" />
+            </div>
+          </div>
+        )}
 
         <input
           ref={fileRef}
@@ -166,17 +216,20 @@ export default function UploadPage() {
         {/* Thumbnails */}
         <div className="upload-thumbs">
           {STEPS.map((s, i) => (
-            <button
-              key={s.key}
-              className={`upload-thumb ${i === currentStep ? 'active' : ''} ${images[s.key] ? 'filled' : ''}`}
-              onClick={() => setCurrentStep(i)}
-            >
-              {images[s.key] ? (
-                <img src={images[s.key]} alt={s.label} />
-              ) : (
-                <span>{s.icon}</span>
-              )}
-            </button>
+            i > 0 && ( // Hide thumbnail for biometrics step
+              <button
+                key={s.key}
+                className={`upload-thumb ${i === currentStep ? 'active' : ''} ${images[s.key] ? 'filled' : ''}`}
+                onClick={() => setCurrentStep(i)}
+                disabled={i > currentStep}
+              >
+                {images[s.key] ? (
+                  <img src={images[s.key]} alt={s.label} />
+                ) : (
+                  <span>{s.icon}</span>
+                )}
+              </button>
+            )
           ))}
         </div>
 
