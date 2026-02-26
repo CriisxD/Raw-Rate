@@ -175,6 +175,14 @@ export default function DashboardPage() {
   return (
     <main className="dashboard-page page-enter">
       <div className="container">
+        {/* Header Logo */}
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '1.5rem' }}>🚩</span>
+          <h1 style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', letterSpacing: '0.1em', margin: 0, background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            RAWRATE
+          </h1>
+        </div>
+
         <div className="dash-header">
           <span className="text-mono">REPORTE COMPLETO</span>
           <span className="text-mono" style={{ color: 'var(--cyan)' }}>#{id.slice(0, 8)}</span>

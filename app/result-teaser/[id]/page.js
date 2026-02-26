@@ -90,6 +90,14 @@ export default function ResultTeaserPage() {
   return (
     <main className="teaser-page page-enter">
       <div className="container">
+        {/* Header Logo */}
+        <div style={{ textAlign: 'center', marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '1.5rem' }}>🚩</span>
+          <h1 style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', letterSpacing: '0.1em', margin: 0, background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            RAWRATE
+          </h1>
+        </div>
+
         {/* Timer */}
         <div className="teaser-timer">
           <div className="timer">
@@ -164,7 +172,6 @@ export default function ResultTeaserPage() {
           </div>
         </div>
 
-        {/* Dynamic copy */}
         <div className="teaser-copy glass-card">
           <p>
             Tienes un <strong style={{ color: 'var(--cyan)' }}>rasgo dominante</strong> que eleva tu atractivo
@@ -172,7 +179,7 @@ export default function ResultTeaserPage() {
             pero detectamos <strong style={{ color: 'var(--red)' }}>{data.penalizing_trait || 'un defecto estructural'}</strong> que te está hundiendo.
           </p>
           <p className="teaser-stat-line">
-            Solo el <span className="text-gradient" style={{ fontWeight: 800 }}>14%</span> de la población tiene este perfil.
+            Solo el <span className="text-gradient" style={{ fontWeight: 800 }}>{100 - (data.social_percentile || 86)}%</span> de la población tiene este perfil.
           </p>
         </div>
 
