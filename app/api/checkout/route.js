@@ -9,19 +9,17 @@ export async function POST(request) {
       return NextResponse.json({ error: 'analysisId requerido' }, { status: 400 });
     }
 
+    // FORCE BYPASS PAYWALL: Unlock immediately
+    if (type === 'upsell') {
+      await addUpsell(analysisId);
+    } else {
+      await unlockAnalysis(analysisId);
+    }
+    return NextResponse.json({ demo: true, checkoutUrl: null });
+
+    /* ORIGINAL LEMON SQUEEZY LOGIC COMMENTED OUT FOR TESTING
     const apiKey = process.env.LEMONSQUEEZY_API_KEY;
     const storeId = process.env.LEMONSQUEEZY_STORE_ID;
-
-    // Demo mode without API key
-    if (!apiKey || !storeId) {
-      if (type === 'upsell') {
-        await addUpsell(analysisId);
-      } else {
-        await unlockAnalysis(analysisId);
-      }
-      return NextResponse.json({ demo: true, checkoutUrl: null });
-    }
-
     const variantId = type === 'upsell'
       ? process.env.LEMONSQUEEZY_VARIANT_ID_UPSELL
       : process.env.LEMONSQUEEZY_VARIANT_ID_BASE;
@@ -63,6 +61,7 @@ export async function POST(request) {
     }
 
     return NextResponse.json({ checkoutUrl });
+    */
   } catch (error) {
     console.error('Checkout error:', error);
     return NextResponse.json({ error: 'Error al crear checkout' }, { status: 500 });
