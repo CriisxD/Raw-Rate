@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createAnalysis, updateAnalysisStatus, saveMedia } from '@/lib/db';
 import { analyzeImages } from '@/lib/openai';
 
-export const maxDuration = 30;
+export const maxDuration = 60; // Allow more time for OpenAI Vision processing
 
 export async function POST(request) {
   try {

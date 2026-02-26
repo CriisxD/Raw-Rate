@@ -17,7 +17,7 @@ function compressImage(file) {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX = 800;
+        const MAX = 400; // Drastically reduced for Vercel 4.5MB payload limit
         let w = img.width, h = img.height;
         if (w > h) { if (w > MAX) { h *= MAX / w; w = MAX; } }
         else { if (h > MAX) { w *= MAX / h; h = MAX; } }
@@ -25,7 +25,7 @@ function compressImage(file) {
         canvas.height = h;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', 0.8));
+        resolve(canvas.toDataURL('image/jpeg', 0.6)); // Lower quality to bypass limit
       };
       img.src = e.target.result;
     };
