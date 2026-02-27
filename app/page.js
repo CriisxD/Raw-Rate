@@ -136,7 +136,7 @@ export default function LandingPage() {
       <div className="landing-content container">
         <div className="landing-badge animate-fade-in">
           <span className="landing-badge-dot" />
-          <span>ANÁLISIS ANTROPOMÉTRICO v7.2</span>
+          <span>ANÁLISIS ANTROPOMÉTRICO v7.3</span>
         </div>
 
         <h1 className="heading-xl animate-fade-in delay-1">
