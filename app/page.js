@@ -1,11 +1,17 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './landing.css';
 
 export default function LandingPage() {
   const router = useRouter();
   const canvasRef = useRef(null);
+
+  const [liveStats, setLiveStats] = useState({
+    scans: 14200,
+    score: '6.42',
+    precision: '92.1',
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -71,6 +77,47 @@ export default function LandingPage() {
     };
   }, []);
 
+  // Live Stats Simulation Effect
+  useEffect(() => {
+    // Generate an offset base from the time of day, so it looks like it grew organically
+    const now = new Date();
+    const secSinceMidnight = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    
+    // Roughly 1 scan every 2-3 seconds = ~30K scans a day
+    let currentScans = Math.floor(secSinceMidnight / 2.5) + 3240; 
+    let currentScore = (6.3 + Math.random() * 0.4).toFixed(2);
+    let currentPrecision = (91.0 + Math.random() * 2.8).toFixed(1);
+
+    setLiveStats({
+      scans: currentScans,
+      score: currentScore,
+      precision: currentPrecision,
+    });
+
+    const scanInterval = setInterval(() => {
+      currentScans += Math.floor(Math.random() * 4) + 1; // Ticket up by 1-4 scans
+      setLiveStats(prev => ({ ...prev, scans: currentScans }));
+    }, 3500); // Check every 3.5s
+
+    const scoreInterval = setInterval(() => {
+      // Score fluctuates very slightly around the mean
+      currentScore = (parseFloat(currentScore) + (Math.random() * 0.04 - 0.02)).toFixed(2);
+      setLiveStats(prev => ({ ...prev, score: currentScore }));
+    }, 12000); // Check every 12s
+
+    const precisionInterval = setInterval(() => {
+      // Precision fluctuates slightly
+      currentPrecision = (parseFloat(currentPrecision) + (Math.random() * 0.2 - 0.1)).toFixed(1);
+      setLiveStats(prev => ({ ...prev, precision: currentPrecision }));
+    }, 18000); // Check every 18s
+
+    return () => {
+      clearInterval(scanInterval);
+      clearInterval(scoreInterval);
+      clearInterval(precisionInterval);
+    };
+  }, []);
+
   const handleStart = () => {
     // Create session ID
     if (!localStorage.getItem('rawrate_session')) {
@@ -89,7 +136,7 @@ export default function LandingPage() {
       <div className="landing-content container">
         <div className="landing-badge animate-fade-in">
           <span className="landing-badge-dot" />
-          <span>ANÁLISIS ANTROPOMÉTRICO v7.0</span>
+          <span>ANÁLISIS ANTROPOMÉTRICO v7.2</span>
         </div>
 
         <h1 className="heading-xl animate-fade-in delay-1">
@@ -112,17 +159,17 @@ export default function LandingPage() {
 
         <div className="landing-stats animate-fade-in delay-4">
           <div className="landing-stat">
-            <span className="landing-stat-num">14.2K</span>
+            <span className="landing-stat-num" style={{ fontVariantNumeric: 'tabular-nums' }}>{liveStats.scans.toLocaleString()}</span>
             <span className="landing-stat-label">escaneos hoy</span>
           </div>
           <div className="landing-stat-divider" />
           <div className="landing-stat">
-            <span className="landing-stat-num">6.4</span>
+            <span className="landing-stat-num" style={{ fontVariantNumeric: 'tabular-nums' }}>{liveStats.score}</span>
             <span className="landing-stat-label">score promedio</span>
           </div>
           <div className="landing-stat-divider" />
           <div className="landing-stat">
-            <span className="landing-stat-num">92%</span>
+            <span className="landing-stat-num" style={{ fontVariantNumeric: 'tabular-nums' }}>{liveStats.precision}%</span>
             <span className="landing-stat-label">precisión</span>
           </div>
         </div>
